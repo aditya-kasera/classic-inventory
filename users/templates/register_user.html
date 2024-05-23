@@ -1,0 +1,30 @@
+{% extends 'admin_base.html' %}
+{% block title %}
+    Register Users
+{% endblock %}
+
+{% block content %}
+    <!-- Admin adds employees/admins -->
+    <div class="register">
+        <h1>Register</h1>
+    
+        <form action="{{ url_for('users.register_user') }}" method="post" autocomplete="off">
+            <label for="username">
+                <i class="fas fa-user"></i>
+            </label>
+            <input type="text" name="full_name" placeholder="Enter Full Name" id="full_name" required>
+            <label for="full_name">
+                <i class="fas fa-envelope"></i>
+            </label>
+            <input type="email" name="email" placeholder="Enter Email" id="email" required>
+            <label for="password">
+                <i class="fas fa-lock"></i>
+            </label>
+            <input type="password" name="password" placeholder="Enter Password" id="password" required>
+            
+
+            <div class="message">{{ message }}</div>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+{% endblock %}

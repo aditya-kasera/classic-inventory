@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <title>
+          {% block title %}
+
+          {% endblock %}
+      </title>
+
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
+   </head>
+   <body>
+    
+
+    <ul>
+        {% if session['loggedin'] %}
+            <li><a href="{{ url_for('inventory.dashboard_admin') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('users.register_user') }}">Register Employee</a></li>
+            <li><a href="{{ url_for('users.manage_users') }}">Manage Employees</a></li>
+            <li><a href="{{ url_for('users.view') }}">My Account</a></li>
+            <li style="float:right"><a class="active" href="{{ url_for('users.logout') }}">Logout</a></li>
+        {% else %}
+            <li style="float:right"><a class="active" href="{{ url_for('users.login') }}">Login</a></li>
+        {% endif %}
+
+        
+        
+    </ul>
+    <!-- <div class="content"> -->
+      {% block content %}
+
+      {% endblock %}
+      <!-- Future Content here -->
+    <!-- </div> -->
+      
+</body>
+
+
+</html>

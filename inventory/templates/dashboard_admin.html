@@ -1,0 +1,53 @@
+{% extends 'admin_base.html' %}
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+<p class="welcome" >Welcome back, {{ full_name }}!</p>
+<a href="{{ url_for('inventory.add_item') }}" class="btn-round bottom-right"></a>
+
+<p style="bottom: 8px; right: 46px;" class="bottom-right">Add ITEM </p>
+
+
+<div class="content-table">
+    <div>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <!-- Your Columns HERE -->
+                    <th scope="col"></th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Serial Number</th>
+                    <th scope="col">Assignment</th>
+                    <th scope="col"></th>
+            
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in all_items %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{item['item_name']}}</td>
+                        <td>{{item['s_no']}}</td>
+                        <td>
+                            {% if item['is_assigned'] == 0 %}
+                            Unassigned
+                            {% elif item['is_assigned'] == 1 %}
+                            Assigned
+                            {% endif %}
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="float:right"><a class="active" href="{{ url_for('inventory.view_item', id=item['id']) }}">View Item 👁️</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

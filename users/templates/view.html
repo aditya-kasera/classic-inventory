@@ -1,0 +1,51 @@
+{% if session['role'] == 'admin' %}
+    {% extends 'admin_base.html' %}
+{% elif session['role'] == 'employee' %}
+    {% extends 'employee_base.html' %}
+{% endif %}
+
+{% block title %}
+    Details
+{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <div>
+        <ul>
+            <li class="welcome" >User's account details:</li>
+            {% if request.path.startswith('/view_user/') %}
+                <li style="float:right"><a class="active" href="{{ url_for('users.delete_user', id=user['id']) }}">Delete User ⚠️</a></li>
+                <li style="float:right"><a class="active" href="{{ url_for('users.manage_users')}}">Back</a></li>
+            {% else %}
+                <li style="float:right"><a class="active" href="{{ url_for('users.change_password', id=session['id']) }}">Change Password 🔑</a></li>
+                <li style="float:right"><a class="active" href="{{ url_for('users.edit_user', id=session['id']) }}">Edit Details ✒️</a></li>
+        {% endif %}
+        </ul>
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td>{{ user['full_name'] }}</td>
+            </tr>
+            <tr>
+                <td>Role:</td>
+                <td>{{ user['role'] }}</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>{{ user['email'] }}</td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td>******</td>
+            </tr>
+        </table>
+
+        
+    </div>
+</div>
+{% endblock %}
+      
+    
+
+    

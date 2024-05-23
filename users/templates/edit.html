@@ -1,0 +1,37 @@
+{% if session['role'] == 'admin' %}
+    {% extends 'admin_base.html' %}
+{% elif session['role'] == 'employee' %}
+    {% extends 'employee_base.html' %}
+{% endif %}
+
+{% block title %}
+    Edit User
+{% endblock %}
+
+{% block content %}
+
+    <!-- Admin adds employees/admins -->
+    
+    <div class="register">
+        <div>
+            <ul>
+                <li style="float: right;"><a class="active" href="{{ url_for('users.view')}}">Back</a></li>
+            </ul>
+        </div>    
+        <h1>Edit</h1>
+        <form action="{{ url_for('users.edit_user', id=user['id']) }}" method="post" autocomplete="off">
+            <label for="username">
+                <i class="fas fa-user"></i>
+            </label>
+            <input type="text" name="full_name" placeholder="Enter Full Name" id="full_name" value="{{user.full_name}}" required>
+            <label for="full_name">
+                <i class="fas fa-envelope"></i>
+            </label>
+            <input type="email" name="email" placeholder="Enter Email" id="email" value="{{user.email}}" required>
+
+            <div class="message">{{ message }}</div>
+            <input type="submit" value="Save">
+        </form><div>
+        
+    </div>
+{% endblock %}

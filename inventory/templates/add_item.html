@@ -1,0 +1,69 @@
+{% extends 'admin_base.html' %}
+{% block title %}
+    Register Users
+{% endblock %}
+
+{% block content %}
+    <!-- Admin adds employees/admins -->
+    <div class="register">
+        <div>
+            <ul>
+                {% if session['role'] == 'admin' %}
+                <li style="float:right"><a class="active" href="{{ url_for('inventory.dashboard_admin')}}">Back</a></li>
+                {% elif session['role'] == 'employee' %}
+                <li style="float:right"><a class="active" href="{{ url_for('inventory.dashboard_admin')}}">Back</a></li>
+                {% endif %}
+            </ul>
+        </div>    
+        <h1>Add Item</h1>
+        <form action="{{ url_for('inventory.add_item') }}" method="post" autocomplete="off">
+            <label for="item_name">
+                <i class="fas fa-user"></i>
+                Item
+            </label>
+            <input type="text" name="item_name" placeholder="Enter Item Name" id="item_name" required>
+
+            <label for="s_no">
+                <i class="fas fa-user"></i>
+                S/N
+            </label>
+            <input type="text" name="s_no" placeholder="Enter Serial Number" id="s_no" required>
+
+            <label for="s_no">
+                <i class="fas fa-user"></i>
+                Bill
+            </label>
+            <input type="number" name="bill_no" min="0" class="select" placeholder="Enter Bill Number" id="bill_no" required>
+
+            <label for="ddmmyy">
+                <i class="fas fa-user"></i>
+                Date
+            </label>
+            <input type="date" name="ddmmyy"  class="select" placeholder="Enter Purhcase Date" id="ddmmyy" required>
+
+            <label for="warrenty_years">
+                <i class="fas fa-user"></i>
+                Years
+            </label>
+            <input type="number" name="warrenty_years" min="0" class="select" placeholder="Enter Warrenty in years" id="warrenty_years" required>
+
+            <label for="warrenty_months">  
+                <i class="fas fa-user"></i>
+                Mon.
+            </label>
+            <input type="number" name="warrenty_months" min="0" max="12" class="select" placeholder="Enter Warrenty in Months" id="warrenty_months" required>
+
+            <label for="price">
+                <i class="fas fa-user"></i>
+                Price
+            </label>
+            <input type="text" name="price" min="0.00" placeholder="Enter Price in Rupees" id="price" required>
+
+            
+
+            <div class="message">{{ message }}</div>
+            <input type="submit" value="Add to Inventory">
+        </form><div>
+        
+    </div>
+{% endblock %}

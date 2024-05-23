@@ -1,0 +1,28 @@
+{% extends 'admin_base.html' %}
+{% block title %}
+    Assign Item
+{% endblock %}
+
+{% block content %}
+<div class="register">
+    <ul>
+        <li style="float:right"><a class="active" href="{{ url_for('inventory.view_item', id=item['id'])}}">Back</a></li>
+    </ul>
+    
+    <h1>Assign {{item['item_name']}}</h1>
+    <form action="{{ url_for('inventory.assign_item', id=item['id']) }}" method="post" autocomplete="off">
+        <label for="assigned"></label>
+        <select name="assigned" id="assigned" class="select">
+            <option disabled selected value="">Select Employee</option>
+            {% for employee in employees %}
+                <option value="{{ employee['id'] }}" class="option">{{ employee['full_name'] }}</option>
+            {% endfor %}
+        </select>
+        <div class="message">{{ message }}</div>
+        <input type="submit" value="Assign">
+        
+    </form>
+</div>
+
+{% endblock %}
+<!-- value="{{employee['id']}}" -->

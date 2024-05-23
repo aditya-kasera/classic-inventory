@@ -1,0 +1,117 @@
+{% if session['role'] == 'admin' %}
+    {% extends 'admin_base.html' %}
+{% elif session['role'] == 'employee' %}
+    {% extends 'employee_base.html' %}
+{% endif %}
+
+{% block title %}
+    Item Details
+{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <div>
+        <ul>    
+            <li class="welcome">Item Details</li>
+            {% if session['role'] == 'admin' %}
+                <li style="float:right;"><a href="javascript:void(0);" class="active" onclick="show_alert('{{ url_for('inventory.delete_item', id=item['id'])}}');">Delete Item ⚠️</a></li>
+                <li style="float:right" ><a class="active" href="{{ url_for('inventory.edit_item', id=item['id']) }}">Edit Item ✒️</a>
+                {% if item['is_assigned'] == 0 %}
+                    <li style="float:right" ><a class="active" href="{{ url_for('inventory.assign_item', id=item['id']) }}">Assign Item 🎯</a></li>
+                {% else %}
+                    <li style="float:right" ><a class="active" href="{{ url_for('inventory.unassign_item', id=item['id']) }}">Unassign Item 🚫</a></li>
+                {% endif %}
+                <li style="float:right"><a class="active" href="{{ url_for('inventory.dashboard_admin')}}">Back</a></li>
+                {% elif session['role'] == 'employee' %}
+                <li style="float:right"><a class="active" href="{{ url_for('inventory.dashboard_employee')}}">Back</a></li>
+            {% endif %}
+        </ul>
+        
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td>{{ item['item_name'] }}</td>
+            </tr>
+            <tr>
+                <td>Serial Number:</td>
+                <td>{{ item['s_no'] }}</td>
+            </tr>
+            <tr>
+                <td>Bill Number:</td>
+                <td>{{ item['bill_no'] }}</td>
+            </tr>
+            <tr>
+                <td>Date of Purchase:</td>
+                <td>{{ ddmmyy_formatted }}</td>
+            </tr>
+            <tr>
+                <td>Warrenty:</td>
+                {% if item['warrenty_years'] == 0 %}
+                    {% if item['warrenty_months'] == 0 %}
+                        <td>No Warrenty</td>
+                    {% elif item['warrenty_months'] == 1 %}
+                        <td>{{ item['warrenty_months'] }} month</td>
+                    {% else %}
+                        <td>{{ item['warrenty_months'] }} months</td>
+                    {% endif %}
+                {% elif item['warrenty_years'] == 1 %}
+                    {% if item['warrenty_months'] == 0 %}
+                        <td>{{ item['warrenty_years'] }} year</td>
+                    {% elif item['warrenty_months'] == 1 %}
+                        <td>{{ item['warrenty_years'] }} year and {{ item['warrenty_months'] }} month</td>
+                    {% else %}
+                        <td>{{ item['warrenty_years'] }} year and {{ item['warrenty_months'] }} months</td>
+                    {% endif %}
+                {% else %}
+                    {% if item['warrenty_months'] == 0 %}
+                            <td>{{ item['warrenty_years'] }} years</td>
+                        {% elif item['warrenty_months'] == 1 %}
+                            <td>{{ item['warrenty_years'] }} years and {{ item['warrenty_months'] }} month</td>
+                        {% else %}
+                            <td>{{ item['warrenty_years'] }} years and {{ item['warrenty_months'] }} months</td>
+                        {% endif %}
+                {% endif %}
+            </tr>
+            <tr>
+                <td>Price:</td>
+                <td>₹ {{ item['price'] }}</td>
+            </tr>
+            
+            {% if item['is_assigned'] == 1 %}
+            <tr>
+                <td>Assigned to:</td>
+                <td>{{ assigned_employee }}</td>
+            </tr>
+            {% endif %}
+        </table>
+
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    function show_alert(deleteUrl) {
+        if (confirm("Are you sure you want to delete this item?")) {
+            window.location.href = deleteUrl;
+        }
+    }
+</script>
+
+{% endblock %}
+      
+    
+
+    <!-- {% if request.path.startswith('/view_user/') %}
+            <ul>
+                <li style="float:right"><a class="active" href="{{ url_for('users.delete_user', id=user['id']) }}">Delete User</a></li>
+                <li style="float:right"><a class="active" href="{{ url_for('users.manage_users')}}">Back</a></li>
+                <p>User's account details:<p>
+            </ul>
+        {% else %}
+            <ul>
+                <li style="float:right"><a class="active" href="{{ url_for('users.change_password', id=session['id']) }}">Change Password</a></li>
+                <li style="float:right"><a class="active" href="{{ url_for('users.edit_user', id=session['id']) }}">Edit Details</a></li>
+            </ul>
+            <p>Your account details:<p>
+        {% endif %} -->

@@ -1,0 +1,27 @@
+{% extends 'admin_base.html' %}
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+<div class="login">
+    <h1>Login</h1>
+    
+    <form action="{{ url_for('users.login') }}" method="post">
+        <label >
+            <i class="fas fa-user"></i>
+        </label>
+        <input for="email" type="email" name="email" placeholder="Enter Registered Email" id="email" required>
+        <label >
+            <i class="fas fa-lock"></i>
+        </label>
+
+        <input for="password" type="password" name="password" placeholder="Enter Password" id="password" required>
+    
+        {% if message is defined and message %}
+            <div class="message">{{message}}</div>
+        {% endif %}
+        <input type="submit" value="Login">
+    </form>
+</div>
+{% endblock %}
