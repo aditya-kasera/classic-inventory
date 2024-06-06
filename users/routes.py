@@ -123,7 +123,7 @@ def view():
 @usersInstance.route('/view_user/<int:id>', methods=['GET', 'POST'])
 def view_user(id):
     if 'loggedin' in session:
-        # viewID = request.args.get('id')
+        
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM user WHERE id = %s', (id,))
         user = cursor.fetchone()
@@ -135,7 +135,7 @@ def view_user(id):
 @usersInstance.route('/edit_user/<int:id>', methods=['GET', 'POST'])
 def edit_user(id):
     if 'loggedin' in session:
-        # viewID = request.args.get('id')
+        
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM user WHERE id = %s', (id,))
         user = cursor.fetchone()
@@ -193,7 +193,7 @@ def change_password(id):
 @usersInstance.route('/delete_user/<int:id>', methods=['GET'])
 def delete_user(id):
     if 'loggedin' in session:
-        # viewID = request.args.get('id')
+        
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('DELETE FROM user WHERE id = %s', (id,))
         mysql.connection.commit()
