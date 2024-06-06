@@ -5,7 +5,7 @@ from flask import render_template, request, url_for, session, redirect
 import MySQLdb.cursors
 import re
 from enum import Enum
-from app import mysql
+from app import mysql, app
 
 
 class Role(Enum):
@@ -14,7 +14,7 @@ class Role(Enum):
 
 # NAVBAR BUTTONS
 
-@usersInstance.route("/", methods=['GET', 'POST'])
+
 @usersInstance.route("/login", methods=['GET', 'POST'])
 def login():
     message=''
@@ -36,6 +36,7 @@ def login():
             session['email'] = user['email']
             session['role'] = user['role']
             message = 'Logged in Successfully'
+            app.logger.info('Logged in')
             if session['role'] == 'admin':
                 return redirect(url_for('inventory.dashboard_admin'))
             elif session['role'] == 'employee':
@@ -52,13 +53,14 @@ def logout():
     session.pop('full_name', None)
     session.pop('email', None)
     session.pop('role', None)
+    app.logger.info('Logged out')
     return redirect(url_for('users.login'))
 
 # NAVBAR LINKS
 @usersInstance.route("/register_user", methods=['GET', 'POST'])
 def register_user():
     if 'loggedin' in session and session['role'] == Role.ADMIN.value:
-        message = ''
+        message = 'Please fill out the form!'
         # Check if "username", "password" and "email" POST requests exist (user submitted form)
         if request.method == 'POST' and 'full_name' in request.form and 'password' in request.form and 'email' in request.form:
             # Create variables for easy access
@@ -72,7 +74,7 @@ def register_user():
             # If account exists show error and validation checks
             if account:
                 message = 'Account already exists!'
-            elif not re.match(r'[^@]+@nucleusteq\.com$', email):
+            elif not re.match(r'[A-Za-z]+@nucleusteq\.com$', email):
                 message = 'Invalid email address!'
             elif not re.match(r'[A-Za-z ]+', full_name):
                 message = 'Name must contain only alphabets!'
@@ -87,6 +89,8 @@ def register_user():
                 cursor.execute('INSERT INTO user VALUES (NULL, %s, %s, %s, %s)', (full_name, email, password, role))
                 mysql.connection.commit()
                 message = 'Successfully registered!'
+                app.logger.info('Employee registered')
+                return redirect(url_for('users.manage_users'))
         elif request.method == 'POST':
             # Form is empty... (no POST data)
             message = 'Please fill out the form!'
@@ -101,7 +105,7 @@ def manage_users():
         cur.execute("SELECT * FROM user")
         all_users = cur.fetchall()
         cur.close()
-        # return jsonify(users)
+        app.logger.info('Accessed manage users page')
         return render_template('manage_users.html', all_users = all_users)
     return redirect(url_for('users.login'))
 
@@ -112,6 +116,7 @@ def view():
         cursor.execute('SELECT * FROM user WHERE id = %s', (session['id'],))
         user = cursor.fetchone()
         cursor.close()
+        app.logger.info('Viewed logged in account details')
         return render_template('view.html', user = user)
     return redirect(url_for('users.login'))
 
@@ -123,6 +128,7 @@ def view_user(id):
         cursor.execute('SELECT * FROM user WHERE id = %s', (id,))
         user = cursor.fetchone()
         cursor.close()
+        app.logger.info('Viewed user')
         return render_template('view.html', user = user)
     return redirect(url_for('users.login'))
 
@@ -150,8 +156,9 @@ def edit_user(id):
                 cursor.execute('UPDATE user SET full_name = %s, email = %s WHERE id = %s', (full_name, email, id))
                 mysql.connection.commit()
                 message = 'User Updated!'
+                app.logger.info('Updated user')
                 cursor.close()
-                # return redirect(url_for('manage_users'))  
+                return redirect(url_for('users.view'))  
         elif request.method == 'POST':
             message = 'Please fill out the form!'
         return render_template('edit.html', message = message, user = user)
@@ -174,8 +181,9 @@ def change_password(id):
                 cursor.execute('UPDATE user SET pass = %s WHERE id = %s', (password, id))
                 mysql.connection.commit()
                 message = 'Password Updated!'
+                app.logger.info('Password changed')
                 cursor.close()
-                # back to manage users
+                return redirect(url_for('users.view'))  
                 
         elif request.method == 'POST':
             message = 'Please fill out the form!'
@@ -190,6 +198,7 @@ def delete_user(id):
         cursor.execute('DELETE FROM user WHERE id = %s', (id,))
         mysql.connection.commit()
         cursor.close()
+        app.logger.info('Deleted user')
         return redirect(url_for('users.manage_users'))
     return redirect(url_for('users.login'))
 

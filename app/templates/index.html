@@ -1,1 +1,22 @@
-<h1>HOME PAGE</h1>
+{% extends 'admin_base.html' %}
+{% block title %}
+    IMS
+{% endblock %}
+
+{% block content %}
+
+<p class="welcome" style="text-align: center;font-size: 28px; padding-top: 30px;">clean</p>
+<h1 style="font-size: 50px; padding: 0%;">INVENTORY MANAGEMENT SYSTEM</h1>
+<p class="welcome" style="text-align: center;font-size: 30px;; padding-bottom: 30px;">for clean inventory.</p>
+<div  class="content botttom-right">
+    <div>
+        <ul style="display: flex; justify-content: center;">  
+            <li class="welcome">Intuitive & Handy Dashboard</li>  
+            <li class="welcome">Super Easy to Use</li>
+            <li class="welcome">Supports Assignment of Items</li>   
+        </ul>
+    </div>
+</div>
+
+<p class="bottom-right welcome">Kindly contact administrator to Register as an Employee.</p>
+{% endblock %}

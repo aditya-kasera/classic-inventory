@@ -8,33 +8,36 @@
 
 <div class="content-table">
     <div>
-        <table class="table table-hover table-dark">
-            <thead>
-                <tr>
-                    <!-- Your Columns HERE -->
-                    <th scope="col"></th>
-                    <th scope="col">Item Name</th>
-                    <th scope="col">Serial Number</th>
-                    <th scope="col"></th>
-            
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in all_items %}
+        {% if all_items %}
+            <table class="table table-hover table-dark">
+                <thead>
                     <tr>
-                        <td>{{loop.index}}</td>
-                        <td>{{item['item_name']}}</td>
-                        <td>{{item['s_no']}}</td>
-                        <td>
-                            <ul>
-                                <li style="float:right"><a class="active" href="{{ url_for('inventory.view_item', id=item['id']) }}">View Item 👁️</a></li>
-                            </ul>
-                        </td>
+                        <th scope="col"></th>
+                        <th scope="col">Item Name</th>
+                        <th scope="col">Serial Number</th>
+                        <th scope="col"></th>
+                
                     </tr>
-                {% endfor %}
-                    
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for item in all_items %}
+                        <tr>
+                            <td>{{loop.index}}</td>
+                            <td>{{item['item_name']}}</td>
+                            <td>{{item['s_no']}}</td>
+                            <td>
+                                <ul>
+                                    <li style="float:right"><a class="active" href="{{ url_for('inventory.view_item', id=item['id']) }}">View Item 👁️</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                        
+                </tbody>
+            </table>
+        {% else %}
+            <p class="welcome">No items were Assigned to you.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

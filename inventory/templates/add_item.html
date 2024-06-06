@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Admin adds employees/admins -->
     <div class="register">
         <div>
             <ul>
@@ -39,7 +38,7 @@
                 <i class="fas fa-user"></i>
                 Date
             </label>
-            <input type="date" name="ddmmyy"  class="select" placeholder="Enter Purhcase Date" id="ddmmyy" required>
+            <input type="date" name="ddmmyy"  max="{{ today_date }}" class="select" placeholder="Enter Purhcase Date" id="ddmmyy" required>
 
             <label for="warrenty_years">
                 <i class="fas fa-user"></i>

@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Admin adds employees/admins -->
+    <!-- Admin adds employees -->
     <div class="register">
         <h1>Register</h1>
     
@@ -22,8 +22,9 @@
             </label>
             <input type="password" name="password" placeholder="Enter Password" id="password" required>
             
-
-            <div class="message">{{ message }}</div>
+            {% if message is defined and message %}
+                <div class="message">{{message}}</div>
+            {% endif %}
             <input type="submit" value="Register">
         </form>
     </div>

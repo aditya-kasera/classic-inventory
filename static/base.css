@@ -53,7 +53,7 @@ body {
   	box-shadow: 0 0 20px 0 rgb(109, 38, 20);
   	margin: 100px auto;
 }
-.login h1, .register h1 {
+.login h1, .register h1, h1 {
   	text-align: center;
   	color: #ffffff;
   	font-size: 24px;

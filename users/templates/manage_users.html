@@ -7,6 +7,7 @@
 
 <div class="content-table">
     <div>
+        {% if all_users|length > 1 %}
         <table class="table table-hover table-dark">
             <thead>
                 <tr>
@@ -35,15 +36,11 @@
                     
             </tbody>
         </table>
+        {% else %}
+            <p class="welcome">No Employees in the System.</p>
+        {% endif %}
     </div>
 </div>
 
-<script type="text/javascript">
-    function show_alert(deleteUrl) {
-        if (confirm("Are you sure you want to delete this employee?")) {
-            window.location.href = deleteUrl;
-        }
-    }
-</script>
 
 {% endblock %}

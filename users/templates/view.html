@@ -15,7 +15,7 @@
         <ul>
             <li class="welcome" >User's account details:</li>
             {% if request.path.startswith('/view_user/') %}
-                <li style="float:right"><a class="active" href="{{ url_for('users.delete_user', id=user['id']) }}">Delete User ⚠️</a></li>
+                <li style="float:right;"><a href="javascript:void(0);" class="active" onclick="show_alert('{{ url_for('users.delete_user', id=user['id'])}}');">Delete User ⚠️</a></li>
                 <li style="float:right"><a class="active" href="{{ url_for('users.manage_users')}}">Back</a></li>
             {% else %}
                 <li style="float:right"><a class="active" href="{{ url_for('users.change_password', id=session['id']) }}">Change Password 🔑</a></li>
@@ -44,6 +44,15 @@
         
     </div>
 </div>
+
+<script type="text/javascript">
+    function show_alert(deleteUrl) {
+        if (confirm("Are you sure you want to delete this employee?")) {
+            window.location.href = deleteUrl;
+        }
+    }
+</script>
+
 {% endblock %}
       
     
